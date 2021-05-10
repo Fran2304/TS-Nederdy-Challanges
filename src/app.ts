@@ -14,39 +14,59 @@ interface TemperatureSummary {
 }
 
 
-const dateTest = new Date('1/1/2021');
+const dateTest = new Date('1/2/2021');
 
 const allTemperature = [
-	{
-		time: new Date('1/1/2021'),
-		temperature: 10,
-		city: 'Utah',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 9,
-		city: 'Utah',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 11,
-		city: 'Utah',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 3,
-		city: 'New York',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 2,
-		city: 'New York',
-	},
-	{
-		time: new Date('1/1/2021'),
-		temperature: 7,
-		city: 'New York',
-	},
+  {
+    time: new Date('1/3/2021'),
+    temperature: 8,
+    city: 'Utah',
+  },
+  {
+    time: new Date('1/2/2021'),
+    temperature: 10,
+    city: 'Utah',
+  },
+  {
+    time: new Date('1/2/2021'),
+    temperature: 9,
+    city: 'Utah',
+  },
+  {
+    time: new Date('1/2/2021'),
+    temperature: 12,
+    city: 'Utah',
+  },
+  {
+    time: new Date('1/2/2021'),
+    temperature: 11,
+    city: 'Utah',
+  },
+  {
+    time: new Date('3/12/2021'),
+    temperature: 15,
+    city: 'New York',
+  },
+  {
+    time: new Date('3/12/2021'),
+    temperature: 10,
+    city: 'New York',
+  },
+  {
+    time: new Date('3/12/2021'),
+    temperature: 11,
+    city: 'New York',
+  },
+  {
+    time: new Date('3/12/2021'),
+    temperature: 9,
+    city: 'New York',
+  },
+  {
+    time: new Date('3/13/2021'),
+    temperature: 16,
+    city: 'New York',
+  },
 ];
 
 const sumary : TemperatureSummary = { 
@@ -58,24 +78,17 @@ const sumary : TemperatureSummary = {
 }
 
 
-
 export function processReadings(readings: TemperatureReading[]): void {
   // add here your code
-  if(readings.length > 0) {
-
-    sumary.first = readings[0].temperature,
-    sumary.last = readings[(readings.length) -1].temperature,
+      sumary.first = readings[0].temperature;
+    sumary.last = readings[(readings.length) -1].temperature;
     
-    readings.sort(function(a, b){return a.temperature - b.temperature})
-    sumary.high = readings[(readings.length) -1].temperature,
+    readings.sort(function(a, b){return a.temperature - b.temperature});
+    sumary.high = readings[(readings.length) -1].temperature;
     sumary.low = readings[0].temperature;
   
-    sumary.average = readings.reduce((acum ,obj) => acum + obj.temperature ,0),
+    sumary.average = (readings.reduce((acum ,obj) => acum + obj.temperature ,0))/readings.length;
     
-    console.log(sumary)
-    }  else{
-    console.log(null)
-    }
 }
 
 export function getTemperatureSummary(
@@ -86,15 +99,20 @@ export function getTemperatureSummary(
     date,
     city
   }
+ 
   const filtered : TemperatureReading[] = allTemperature.filter(temp => temp.time.getTime() == myFilters.date.getTime() && temp.city == myFilters.city)
-
-  processReadings(filtered)
-  
-  //add here your code
-  return null
+  if(filtered.length > 0) {
+  processReadings(filtered);
+  return sumary;
+  }   
+  return null;
 }
 
+
 getTemperatureSummary( dateTest, 'Utah');
+
+
+
 
 exports.processReadings = processReadings
 exports.getTemperatureSummary = getTemperatureSummary
