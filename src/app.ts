@@ -13,6 +13,7 @@ interface TemperatureSummary {
   average: number
 }
 
+
 const dateTest = new Date('1/1/2021');
 
 const allTemperature = [
@@ -48,7 +49,6 @@ const allTemperature = [
 	},
 ];
 
-
 const sumary : TemperatureSummary = { 
   first: 0,
   last: 0,
@@ -57,30 +57,31 @@ const sumary : TemperatureSummary = {
   average: 0,
 }
 
-function processReadings(readings: TemperatureReading[]): void {
 
+
+export function processReadings(readings: TemperatureReading[]): void {
+  // add here your code
   if(readings.length > 0) {
 
-  sumary.first = readings[0].temperature,
-  sumary.last = readings[(readings.length) -1].temperature,
+    sumary.first = readings[0].temperature,
+    sumary.last = readings[(readings.length) -1].temperature,
+    
+    readings.sort(function(a, b){return a.temperature - b.temperature})
+    sumary.high = readings[(readings.length) -1].temperature,
+    sumary.low = readings[0].temperature;
   
-  readings.sort(function(a, b){return a.temperature - b.temperature})
-  sumary.high = readings[(readings.length) -1].temperature,
-  sumary.low = readings[0].temperature;
-
-  sumary.average = readings.reduce((acum ,obj) => acum + obj.temperature ,0),
-  
-  console.log(sumary)
-  }  else{
-  console.log(null)
-  }
+    sumary.average = readings.reduce((acum ,obj) => acum + obj.temperature ,0),
+    
+    console.log(sumary)
+    }  else{
+    console.log(null)
+    }
 }
 
-function getTemperatureSummary(
+export function getTemperatureSummary(
   date: Date,
   city: string,
-): void {
-   
+): TemperatureSummary | null {
   const myFilters = {
     date,
     city
@@ -88,9 +89,11 @@ function getTemperatureSummary(
   const filtered : TemperatureReading[] = allTemperature.filter(temp => temp.time.getTime() == myFilters.date.getTime() && temp.city == myFilters.city)
 
   processReadings(filtered)
-  }
- 
   
+  //add here your code
+  return null
+}
+
 getTemperatureSummary( dateTest, 'Utah');
 
 exports.processReadings = processReadings
